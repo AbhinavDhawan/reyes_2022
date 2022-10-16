@@ -94,6 +94,24 @@ def main():
         linear=[]
         if args.linear:
             linear = [k for k in p_fit]
+
+            '''algebraic solution of linear least squares'''
+
+            #The noise in y is such that it is same for all data points.
+            #This makes the formula (mentioned in my report Q1) simpler
+
+            S_01=np.sum(x)
+            S_11=np.sum(x**2)
+            S_matrix=np.matrix([[np.size(x),S_01],[S_01,S_11]])/(args.sig**2)
+            S_inv=np.linalg.inv(S_matrix)
+            yc=np.array([np.sum(y),np.sum(x*y)])/(args.sig**2)
+            p_alg=S_inv.dot(yc)
+            print("\n*****************************************************************")
+            print("This is algebraic solution ", p_alg)
+            print("*****************************************************************\n")
+            
+
+
         if args.freq_fit:
             print('---------------------------------------------------------------')
             print('       Frequentist Fit')
